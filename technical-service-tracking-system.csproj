@@ -6,5 +6,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>technical_service_tracking_system</RootNamespace>
   </PropertyGroup>
+  
+<ItemGroup>
+  <UpToDateCheckBuilt Include="wwwroot/css/site.css" Set="Css" />
+  <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
+</ItemGroup>
 
+<Target Name="Tailwind" BeforeTargets="Build">
+  <Exec Command="npm run css:build"/>
+</Target>
 </Project>
