@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using technical_service_tracking_system.Entity;
+using technical_service_tracking_system.Models;
 using technical_service_tracking_system.Repository.Abstract;
 using technical_service_tracking_system.Repository.Concrete;
 
@@ -22,6 +23,8 @@ builder.Services.AddScoped<IServiceRequestRepository, EFServiceRequestRepository
 builder.Services.AddScoped<ISpareItemRepository, EFSpareItemRepository>();
 builder.Services.AddScoped<ISpareItemUseActivityRepository, EFSpareItemUseActivityRepository>();
 builder.Services.AddScoped<IStatusRepository, EFStatusRepository>();
+
+builder.Services.AddAutoMapper(typeof(MapperProfile).Assembly);
 
 var app = builder.Build();
 
