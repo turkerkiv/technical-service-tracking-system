@@ -12,7 +12,7 @@ using technical_service_tracking_system.Entity;
 namespace technical_service_tracking_system.Migrations
 {
     [DbContext(typeof(TsDbContext))]
-    [Migration("20240920133932_InitialCreate")]
+    [Migration("20240920150232_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -149,7 +149,7 @@ namespace technical_service_tracking_system.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("technical_service_tracking_system.Entity.ServiceRequest", b =>
@@ -275,6 +275,10 @@ namespace technical_service_tracking_system.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

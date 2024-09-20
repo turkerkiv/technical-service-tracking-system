@@ -146,7 +146,7 @@ namespace technical_service_tracking_system.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("technical_service_tracking_system.Entity.ServiceRequest", b =>
@@ -272,6 +272,10 @@ namespace technical_service_tracking_system.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
