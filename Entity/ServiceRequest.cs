@@ -14,8 +14,8 @@ namespace technical_service_tracking_system.Entity
 
         public int StatusId { get; set; }
         public Status Status { get; set; } = null!;
-        public int ProductId { get; set; }
-        public CustomerProduct Product { get; set; } = null!;
+        public int CustomerProductId { get; set; }
+        public CustomerProduct CustomerProduct { get; set; } = null!;
         public int CustomerId { get; set; }
         public User Customer { get; set; } = null!;
         public int FaultTypeId { get; set; }

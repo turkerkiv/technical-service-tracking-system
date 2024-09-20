@@ -17,5 +17,8 @@ namespace technical_service_tracking_system.Entity
         public Product Product { get; set; } = null!;
         public int CustomerId { get; set; }
         public User Customer { get; set; } = null!;
+
+        public List<ServiceRequest> ServiceRequests { get; set; } = new();
+
     }
 }

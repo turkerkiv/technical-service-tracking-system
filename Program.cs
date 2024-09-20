@@ -1,7 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using technical_service_tracking_system.Entity;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<TsDbContext>(options => 
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MSSQLDefault"));
+});
 
 var app = builder.Build();
 
