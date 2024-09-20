@@ -12,7 +12,7 @@ namespace technical_service_tracking_system.Entity
         public DbSet<FaultType> FaultTypes => Set<FaultType>();
         public DbSet<Product> Products => Set<Product>();
         public DbSet<RequestIntervention> RequestInterventions => Set<RequestIntervention>();
-        public DbSet<Role> Role => Set<Role>();
+        public DbSet<Role> Roles => Set<Role>();
         public DbSet<ServiceRequest> ServiceRequests => Set<ServiceRequest>();
         public DbSet<SpareItem> SpareItems => Set<SpareItem>();
         public DbSet<SpareItemUseActivity> SpareItemUseActivities => Set<SpareItemUseActivity>();

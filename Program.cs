@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using technical_service_tracking_system.Entity;
+using technical_service_tracking_system.Repository.Abstract;
+using technical_service_tracking_system.Repository.Concrete;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,17 @@ builder.Services.AddDbContext<TsDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("MSSQLDefault"));
 });
+
+builder.Services.AddScoped<IUserRepository, EFUserRepository>();
+builder.Services.AddScoped<ICustomerProductRepository, EFCustomerProductRepository>();
+builder.Services.AddScoped<IFaultTypeRepository, EFFaultTypeRepository>();
+builder.Services.AddScoped<IProductRepository, EFProductRepository>();
+builder.Services.AddScoped<IRequestInterventionRepository, EFRequestInterventionRepository>();
+builder.Services.AddScoped<IRoleRepository, EFRoleRepository>();
+builder.Services.AddScoped<IServiceRequestRepository, EFServiceRequestRepository>();
+builder.Services.AddScoped<ISpareItemRepository, EFSpareItemRepository>();
+builder.Services.AddScoped<ISpareItemUseActivityRepository, EFSpareItemUseActivityRepository>();
+builder.Services.AddScoped<IStatusRepository, EFStatusRepository>();
 
 var app = builder.Build();
 
