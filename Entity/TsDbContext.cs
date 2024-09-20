@@ -31,32 +31,33 @@ namespace technical_service_tracking_system.Entity
             .HasIndex(cp => cp.TicketNumber)
             .IsUnique();
 
-            /*on some row deletion, to delete all related rows we need to 
+            /*if we use clientCascade: on some row deletion, to delete all related rows we need to 
             include that related entities but for every entity while getting
             it from db and then delete to make related one tracked too.*/ 
+            //restrict chosen bc it reminds to delete every related childs
             modelBuilder.Entity<ServiceRequest>()
             .HasOne(sr => sr.Customer)
             .WithMany(c => c.ServiceRequests)
             .HasForeignKey(sr => sr.CustomerId)
-            .OnDelete(DeleteBehavior.ClientCascade);
+            .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<ServiceRequest>()
           .HasOne(sr => sr.CustomerProduct)
           .WithMany(cp => cp.ServiceRequests)
           .HasForeignKey(sr => sr.CustomerProductId)
-          .OnDelete(DeleteBehavior.ClientCascade);
+          .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<ServiceRequest>()
           .HasOne(sr => sr.Status)
           .WithMany(c => c.ServiceRequests)
           .HasForeignKey(sr => sr.StatusId)
-          .OnDelete(DeleteBehavior.ClientCascade);
+          .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<ServiceRequest>()
           .HasOne(sr => sr.FaultType)
           .WithMany(c => c.ServiceRequests)
           .HasForeignKey(sr => sr.FaultTypeId)
-          .OnDelete(DeleteBehavior.ClientCascade);
+          .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -332,25 +332,25 @@ namespace technical_service_tracking_system.Migrations
                     b.HasOne("technical_service_tracking_system.Entity.User", "Customer")
                         .WithMany("ServiceRequests")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("technical_service_tracking_system.Entity.CustomerProduct", "CustomerProduct")
                         .WithMany("ServiceRequests")
                         .HasForeignKey("CustomerProductId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("technical_service_tracking_system.Entity.FaultType", "FaultType")
                         .WithMany("ServiceRequests")
                         .HasForeignKey("FaultTypeId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("technical_service_tracking_system.Entity.Status", "Status")
                         .WithMany("ServiceRequests")
                         .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Customer");
