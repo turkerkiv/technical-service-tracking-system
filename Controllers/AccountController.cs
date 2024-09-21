@@ -36,9 +36,10 @@ namespace technical_service_tracking_system.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(string username, string password, string email)
+        public IActionResult Register(RegisterViewModel model)
         {
-            return View();
+            if(!ModelState.IsValid) return View(model);
+            return RedirectToAction("Login", "Account");
         }
 
         [HttpPost]
