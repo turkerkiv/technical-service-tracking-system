@@ -1,0 +1,19 @@
+@model LoginViewModel
+
+<div class="bg-slate-600 w-full h-full flex justify-center items-center">
+    <form action="#" method="post" class="flex text-white flex-col items-end rounded p-10 border">
+        <div class="mb-3">
+            <label asp-for="Email" class="me-2"></label>
+            <input asp-for="Email" class="border rounded px-4 py-2 bg-transparent focus:bg-slate-700" />
+            <span asp-validation-for="Email" class="text-red-400 block mt-1 text-end"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Password" class="me-2"></label>
+            <input asp-for="Password" class="border rounded px-4 py-2 bg-transparent focus:bg-slate-700" />
+            <span asp-validation-for="Password" class="text-red-400 block mt-1 text-end"></span>
+        </div>
+        <div>
+            @Html.Partial("_Button", "Login")
+        </div>
+    </form>
+</div>
