@@ -33,9 +33,6 @@ namespace technical_service_tracking_system.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("HasWarranty")
-                        .HasColumnType("bit");
-
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
@@ -58,7 +55,6 @@ namespace technical_service_tracking_system.Migrations
                         {
                             Id = 1,
                             CustomerId = 2,
-                            HasWarranty = true,
                             ProductId = 1,
                             WarrantyEndDate = new DateOnly(2025, 1, 1),
                             WarrantyStartDate = new DateOnly(2023, 1, 1)
@@ -67,7 +63,6 @@ namespace technical_service_tracking_system.Migrations
                         {
                             Id = 2,
                             CustomerId = 2,
-                            HasWarranty = false,
                             ProductId = 2,
                             WarrantyEndDate = new DateOnly(2024, 1, 1),
                             WarrantyStartDate = new DateOnly(2022, 1, 1)
@@ -115,6 +110,10 @@ namespace technical_service_tracking_system.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Model")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -135,6 +134,7 @@ namespace technical_service_tracking_system.Migrations
                         {
                             Id = 1,
                             Brand = "Dell",
+                            ImageName = "",
                             Model = "XPS 13",
                             SerialNumber = "ABC123"
                         },
@@ -142,6 +142,7 @@ namespace technical_service_tracking_system.Migrations
                         {
                             Id = 2,
                             Brand = "Apple",
+                            ImageName = "",
                             Model = "MacBook Pro",
                             SerialNumber = "DEF456"
                         });
@@ -252,7 +253,7 @@ namespace technical_service_tracking_system.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("FaultTypeId")
+                    b.Property<int?>("FaultTypeId")
                         .HasColumnType("int");
 
                     b.Property<DateOnly>("RequestDate")
@@ -529,8 +530,7 @@ namespace technical_service_tracking_system.Migrations
                     b.HasOne("technical_service_tracking_system.Entity.FaultType", "FaultType")
                         .WithMany("ServiceRequests")
                         .HasForeignKey("FaultTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("technical_service_tracking_system.Entity.Status", "Status")
                         .WithMany("ServiceRequests")

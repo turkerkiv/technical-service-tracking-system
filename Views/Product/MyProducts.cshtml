@@ -1,4 +1,4 @@
-﻿@model List<CustomerProductViewModel>
+﻿@model List<ServiceRequestViewModel>
 
 <div class="w-full bg-slate-700 h-full px-36 py-10 flex flex-col items-start space-y-10 justify-start">
     <h1 class="font-semibold text-5xl text-white">Your Products</h1>
@@ -35,7 +35,7 @@
                     </span>
                 </td>
                 <td class="py-3 px-4">
-                    <a asp-controller="Request" asp-action="CreateRequest" asp-route-productId="@product.Id"
+                    <a asp-controller="ServiceRequest" asp-action="CreateRequest" asp-route-customerProductId="@product.CustomerProductId"
                         class="inline-block px-4 py-2 text-white bg-green-700 rounded hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500">
                         Create Service Request
                     </a>
@@ -45,30 +45,3 @@
         </tbody>
     </table>
 </div>
-
-<!-- 
-<form action="" class="flex flex-col items-end bg-gray-700 p-4">
-    <div class="mb-3 w-full flex flex-col  space-y-2">
-        <label for="selectedProduct" class="me-2 text-xl">Select your product</label>
-        <select name="selectedProduct" id="selectedProduct"
-            class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100">
-            <option value="">Select an option</option>
-            @foreach (var product in Model)
-            {
-            <option value="@product.Id">@product.ProductName</option>
-            }
-            <option value="">Add a product... ↗</option>
-        </select>
-    </div>
-    <div class="mb-3 flex flex-col w-full space-y-2">
-        <label asp-for="FaultDetails" class="me-2 text-xl"></label>
-        <textarea asp-for="FaultDetails"
-            class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100"
-            rows="5" cols="35" style="resize: none;"></textarea>
-        <span asp-validation-for="FaultDetails"
-            class="text-red-400 block mt-1 text-end text-xs font-medium"></span>
-    </div>
-    <div>
-        @Html.Partial("_Button", "Submit")
-    </div>
-</form> -->

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,7 +9,6 @@ namespace technical_service_tracking_system.Entity
     public class CustomerProduct
     {
         public int Id { get; set; }
-        public bool HasWarranty { get; set; }
         public DateOnly WarrantyStartDate { get; set; }
         public DateOnly WarrantyEndDate { get; set; }
 
@@ -19,5 +19,7 @@ namespace technical_service_tracking_system.Entity
 
         public List<ServiceRequest> ServiceRequests { get; set; } = new();
 
+        [NotMapped]
+        public bool HasWarranty => WarrantyEndDate > DateOnly.FromDateTime(DateTime.Now);
     }
 }

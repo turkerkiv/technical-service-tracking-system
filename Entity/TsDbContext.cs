@@ -95,8 +95,8 @@ namespace technical_service_tracking_system.Entity
 
       // Seeding Customer Products
       modelBuilder.Entity<CustomerProduct>().HasData(
-          new CustomerProduct { Id = 1, HasWarranty = true, WarrantyStartDate = new DateOnly(2023, 01, 01), WarrantyEndDate = new DateOnly(2025, 01, 01), CustomerId = 2, ProductId = 1 },
-          new CustomerProduct { Id = 2, HasWarranty = false, WarrantyStartDate = new DateOnly(2022, 01, 01), WarrantyEndDate = new DateOnly(2024, 01, 01), CustomerId = 2, ProductId = 2 }
+          new CustomerProduct { Id = 1, WarrantyStartDate = new DateOnly(2023, 01, 01), WarrantyEndDate = new DateOnly(2025, 01, 01), CustomerId = 2, ProductId = 1 },
+          new CustomerProduct { Id = 2,WarrantyStartDate = new DateOnly(2022, 01, 01), WarrantyEndDate = new DateOnly(2024, 01, 01), CustomerId = 2, ProductId = 2 }
       );
 
       // Seeding Service Requests

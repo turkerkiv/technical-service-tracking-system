@@ -34,7 +34,8 @@ namespace technical_service_tracking_system.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Brand = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SerialNumber = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    SerialNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -111,7 +112,6 @@ namespace technical_service_tracking_system.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    HasWarranty = table.Column<bool>(type: "bit", nullable: false),
                     WarrantyStartDate = table.Column<DateOnly>(type: "date", nullable: false),
                     WarrantyEndDate = table.Column<DateOnly>(type: "date", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
@@ -146,7 +146,7 @@ namespace technical_service_tracking_system.Migrations
                     StatusId = table.Column<int>(type: "int", nullable: false),
                     CustomerProductId = table.Column<int>(type: "int", nullable: false),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
-                    FaultTypeId = table.Column<int>(type: "int", nullable: false)
+                    FaultTypeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -243,11 +243,11 @@ namespace technical_service_tracking_system.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "Brand", "Model", "SerialNumber" },
+                columns: new[] { "Id", "Brand", "ImageName", "Model", "SerialNumber" },
                 values: new object[,]
                 {
-                    { 1, "Dell", "XPS 13", "ABC123" },
-                    { 2, "Apple", "MacBook Pro", "DEF456" }
+                    { 1, "Dell", "", "XPS 13", "ABC123" },
+                    { 2, "Apple", "", "MacBook Pro", "DEF456" }
                 });
 
             migrationBuilder.InsertData(
@@ -290,11 +290,11 @@ namespace technical_service_tracking_system.Migrations
 
             migrationBuilder.InsertData(
                 table: "CustomerProducts",
-                columns: new[] { "Id", "CustomerId", "HasWarranty", "ProductId", "WarrantyEndDate", "WarrantyStartDate" },
+                columns: new[] { "Id", "CustomerId", "ProductId", "WarrantyEndDate", "WarrantyStartDate" },
                 values: new object[,]
                 {
-                    { 1, 2, true, 1, new DateOnly(2025, 1, 1), new DateOnly(2023, 1, 1) },
-                    { 2, 2, false, 2, new DateOnly(2024, 1, 1), new DateOnly(2022, 1, 1) }
+                    { 1, 2, 1, new DateOnly(2025, 1, 1), new DateOnly(2023, 1, 1) },
+                    { 2, 2, 2, new DateOnly(2024, 1, 1), new DateOnly(2022, 1, 1) }
                 });
 
             migrationBuilder.InsertData(
