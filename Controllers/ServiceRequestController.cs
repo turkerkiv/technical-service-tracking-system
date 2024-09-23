@@ -70,3 +70,4 @@ namespace technical_service_tracking_system.Controllers
 }
 
 //TODO register and login in the home page instead of navbar 
+//TODO add adding new product

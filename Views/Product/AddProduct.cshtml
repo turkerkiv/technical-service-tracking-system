@@ -1,0 +1,41 @@
+@model AddProductViewModel
+
+<div class="w-full bg-slate-700 h-full px-36 py-28 flex justify-center items-start">
+    <form method="post" asp-controller="Product" asp-action="AddProduct" class="flex flex-col items-end space-y-5 text-gray-300 justify-start border rounded p-10">
+        <div class="">
+            <label asp-for="Brand" class="me-2 text-xl"></label>
+            <input asp-for="Brand" placeholder="Samsung..."
+                class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100" />
+            <span asp-validation-for="Brand" class="text-red-400 block mt-1 text-end text-xs font-medium"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Model" class="me-2 text-xl"></label>
+            <input asp-for="Model" placeholder="M34..."
+                class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100" />
+            <span asp-validation-for="Model" class="text-red-400 block mt-1 text-end text-xs font-medium"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="SerialNumber" class="me-2 text-xl"></label>
+            <input asp-for="SerialNumber" placeholder="ABC12343..."
+                class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100" />
+            <span asp-validation-for="SerialNumber" class="text-red-400 block mt-1 text-end text-xs font-medium"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="WarrantyStartDate" class="me-2 text-xl"></label>
+            <input type="date" asp-for="WarrantyStartDate"
+                class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100" />
+            <span asp-validation-for="WarrantyStartDate"
+                class="text-red-400 block mt-1 text-end text-xs font-medium"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="WarrantyEndDate" class="me-2 text-xl"></label>
+            <input type="date" asp-for="WarrantyEndDate"
+                class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100" />
+            <span asp-validation-for="WarrantyEndDate"
+                class="text-red-400 block mt-1 text-end text-xs font-medium"></span>
+        </div>
+        <div class="mb-3">
+            @Html.Partial("_Button", "Add")
+        </div>
+    </form>
+</div>
