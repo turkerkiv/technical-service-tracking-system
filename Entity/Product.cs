@@ -10,6 +10,7 @@ namespace technical_service_tracking_system.Entity
         public int Id { get; set; }
         public string Brand { get; set; } = string.Empty;
         public string Model { get; set; } = string.Empty;
+        public string SerialNumber { get; set; } = string.Empty;
 
         public List<CustomerProduct> CustomerProducts = new();
     }

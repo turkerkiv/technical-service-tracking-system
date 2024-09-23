@@ -8,7 +8,6 @@ namespace technical_service_tracking_system.Entity
     public class CustomerProduct
     {
         public int Id { get; set; }
-        public string SerialNumber { get; set; } = string.Empty;
         public bool HasWarranty { get; set; }
         public DateOnly WarrantyStartDate { get; set; }
         public DateOnly WarrantyEndDate { get; set; }
