@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace technical_service_tracking_system.Migrations
 {
     /// <inheritdoc />
@@ -31,7 +33,8 @@ namespace technical_service_tracking_system.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Brand = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Model = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SerialNumber = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -85,7 +88,7 @@ namespace technical_service_tracking_system.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Adress = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -108,7 +111,6 @@ namespace technical_service_tracking_system.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SerialNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     HasWarranty = table.Column<bool>(type: "bit", nullable: false),
                     WarrantyStartDate = table.Column<DateOnly>(type: "date", nullable: false),
                     WarrantyEndDate = table.Column<DateOnly>(type: "date", nullable: false),
@@ -230,6 +232,98 @@ namespace technical_service_tracking_system.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "FaultTypes",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Hardware" },
+                    { 2, "Software" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "Id", "Brand", "Model", "SerialNumber" },
+                values: new object[,]
+                {
+                    { 1, "Dell", "XPS 13", "ABC123" },
+                    { 2, "Apple", "MacBook Pro", "DEF456" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Admin" },
+                    { 2, "Technician" },
+                    { 3, "Customer" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "SpareItems",
+                columns: new[] { "Id", "Name", "Stock" },
+                values: new object[,]
+                {
+                    { 1, "LCD Screen", 5 },
+                    { 2, "SSD Drive", 10 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Statuses",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Open" },
+                    { 2, "Closed" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Address", "Email", "Name", "Password", "PhoneNumber", "RoleId" },
+                values: new object[,]
+                {
+                    { 1, "123 Main St", "john@example.com", "John Doe", "hashedpassword1", "1234567890", 1 },
+                    { 2, "456 Elm St", "jane@example.com", "Jane Smith", "hashedpassword2", "0987654321", 3 },
+                    { 3, "789 Pine St", "mike@example.com", "Technician Mike", "hashedpassword3", "1112223333", 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "CustomerProducts",
+                columns: new[] { "Id", "CustomerId", "HasWarranty", "ProductId", "WarrantyEndDate", "WarrantyStartDate" },
+                values: new object[,]
+                {
+                    { 1, 2, true, 1, new DateOnly(2025, 1, 1), new DateOnly(2023, 1, 1) },
+                    { 2, 2, false, 2, new DateOnly(2024, 1, 1), new DateOnly(2022, 1, 1) }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ServiceRequests",
+                columns: new[] { "Id", "CustomerId", "CustomerProductId", "FaultDetails", "FaultTypeId", "RequestDate", "StatusId", "TicketNumber" },
+                values: new object[,]
+                {
+                    { 1, 2, 1, "Screen not turning on", 1, new DateOnly(2024, 9, 1), 1, 1001 },
+                    { 2, 2, 2, "Operating system crash", 2, new DateOnly(2024, 9, 10), 1, 1002 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "RequestInterventions",
+                columns: new[] { "Id", "EndDate", "InterventionDetails", "ServiceRequestId", "StartDate", "TechnicianId" },
+                values: new object[,]
+                {
+                    { 1, new DateOnly(2024, 9, 3), "Replaced screen", 1, new DateOnly(2024, 9, 2), 3 },
+                    { 2, new DateOnly(2024, 9, 12), "Reinstalled operating system", 2, new DateOnly(2024, 9, 11), 3 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "SpareItemUseActivities",
+                columns: new[] { "Id", "RequestInterventionId", "SpareItemId" },
+                values: new object[,]
+                {
+                    { 1, 1, 1 },
+                    { 2, 2, 2 }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_CustomerProducts_CustomerId",
                 table: "CustomerProducts",
@@ -241,8 +335,8 @@ namespace technical_service_tracking_system.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CustomerProducts_SerialNumber",
-                table: "CustomerProducts",
+                name: "IX_Products_SerialNumber",
+                table: "Products",
                 column: "SerialNumber",
                 unique: true);
 

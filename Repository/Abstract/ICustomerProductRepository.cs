@@ -8,6 +8,7 @@ namespace technical_service_tracking_system.Repository.Abstract
 {
     public interface ICustomerProductRepository
     {
+        public IQueryable<CustomerProduct> CustomerProducts { get; }
         Task<CustomerProduct?> GetCustomerProductByIdAsync(int id);
         Task AddCustomerProductAsync(CustomerProduct customerProduct);
         Task UpdateCustomerProductAsync(CustomerProduct customerProduct);

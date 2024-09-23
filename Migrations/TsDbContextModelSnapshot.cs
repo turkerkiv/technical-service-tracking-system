@@ -39,10 +39,6 @@ namespace technical_service_tracking_system.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<string>("SerialNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateOnly>("WarrantyEndDate")
                         .HasColumnType("date");
 
@@ -55,10 +51,27 @@ namespace technical_service_tracking_system.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.HasIndex("SerialNumber")
-                        .IsUnique();
-
                     b.ToTable("CustomerProducts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CustomerId = 2,
+                            HasWarranty = true,
+                            ProductId = 1,
+                            WarrantyEndDate = new DateOnly(2025, 1, 1),
+                            WarrantyStartDate = new DateOnly(2023, 1, 1)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CustomerId = 2,
+                            HasWarranty = false,
+                            ProductId = 2,
+                            WarrantyEndDate = new DateOnly(2024, 1, 1),
+                            WarrantyStartDate = new DateOnly(2022, 1, 1)
+                        });
                 });
 
             modelBuilder.Entity("technical_service_tracking_system.Entity.FaultType", b =>
@@ -76,6 +89,18 @@ namespace technical_service_tracking_system.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("FaultTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Hardware"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Software"
+                        });
                 });
 
             modelBuilder.Entity("technical_service_tracking_system.Entity.Product", b =>
@@ -94,9 +119,32 @@ namespace technical_service_tracking_system.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("SerialNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("SerialNumber")
+                        .IsUnique();
+
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Brand = "Dell",
+                            Model = "XPS 13",
+                            SerialNumber = "ABC123"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Brand = "Apple",
+                            Model = "MacBook Pro",
+                            SerialNumber = "DEF456"
+                        });
                 });
 
             modelBuilder.Entity("technical_service_tracking_system.Entity.RequestIntervention", b =>
@@ -130,6 +178,26 @@ namespace technical_service_tracking_system.Migrations
                     b.HasIndex("TechnicianId");
 
                     b.ToTable("RequestInterventions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            EndDate = new DateOnly(2024, 9, 3),
+                            InterventionDetails = "Replaced screen",
+                            ServiceRequestId = 1,
+                            StartDate = new DateOnly(2024, 9, 2),
+                            TechnicianId = 3
+                        },
+                        new
+                        {
+                            Id = 2,
+                            EndDate = new DateOnly(2024, 9, 12),
+                            InterventionDetails = "Reinstalled operating system",
+                            ServiceRequestId = 2,
+                            StartDate = new DateOnly(2024, 9, 11),
+                            TechnicianId = 3
+                        });
                 });
 
             modelBuilder.Entity("technical_service_tracking_system.Entity.Role", b =>
@@ -147,6 +215,23 @@ namespace technical_service_tracking_system.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Technician"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Customer"
+                        });
                 });
 
             modelBuilder.Entity("technical_service_tracking_system.Entity.ServiceRequest", b =>
@@ -193,6 +278,30 @@ namespace technical_service_tracking_system.Migrations
                         .IsUnique();
 
                     b.ToTable("ServiceRequests");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CustomerId = 2,
+                            CustomerProductId = 1,
+                            FaultDetails = "Screen not turning on",
+                            FaultTypeId = 1,
+                            RequestDate = new DateOnly(2024, 9, 1),
+                            StatusId = 1,
+                            TicketNumber = 1001
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CustomerId = 2,
+                            CustomerProductId = 2,
+                            FaultDetails = "Operating system crash",
+                            FaultTypeId = 2,
+                            RequestDate = new DateOnly(2024, 9, 10),
+                            StatusId = 1,
+                            TicketNumber = 1002
+                        });
                 });
 
             modelBuilder.Entity("technical_service_tracking_system.Entity.SpareItem", b =>
@@ -213,6 +322,20 @@ namespace technical_service_tracking_system.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SpareItems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "LCD Screen",
+                            Stock = 5
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "SSD Drive",
+                            Stock = 10
+                        });
                 });
 
             modelBuilder.Entity("technical_service_tracking_system.Entity.SpareItemUseActivity", b =>
@@ -236,6 +359,20 @@ namespace technical_service_tracking_system.Migrations
                     b.HasIndex("SpareItemId");
 
                     b.ToTable("SpareItemUseActivities");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            RequestInterventionId = 1,
+                            SpareItemId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            RequestInterventionId = 2,
+                            SpareItemId = 2
+                        });
                 });
 
             modelBuilder.Entity("technical_service_tracking_system.Entity.Status", b =>
@@ -253,6 +390,18 @@ namespace technical_service_tracking_system.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Statuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Open"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Closed"
+                        });
                 });
 
             modelBuilder.Entity("technical_service_tracking_system.Entity.User", b =>
@@ -263,7 +412,7 @@ namespace technical_service_tracking_system.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Adress")
+                    b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -291,6 +440,38 @@ namespace technical_service_tracking_system.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "123 Main St",
+                            Email = "john@example.com",
+                            Name = "John Doe",
+                            Password = "hashedpassword1",
+                            PhoneNumber = "1234567890",
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Address = "456 Elm St",
+                            Email = "jane@example.com",
+                            Name = "Jane Smith",
+                            Password = "hashedpassword2",
+                            PhoneNumber = "0987654321",
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Address = "789 Pine St",
+                            Email = "mike@example.com",
+                            Name = "Technician Mike",
+                            Password = "hashedpassword3",
+                            PhoneNumber = "1112223333",
+                            RoleId = 2
+                        });
                 });
 
             modelBuilder.Entity("technical_service_tracking_system.Entity.CustomerProduct", b =>
