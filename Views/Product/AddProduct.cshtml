@@ -1,6 +1,7 @@
 @model AddProductViewModel
 
-<div class="w-full bg-slate-700 h-full px-36 py-28 flex justify-center items-start">
+<div class="w-full bg-slate-700 h-full px-36 py-16 flex flex-col justify-start items-center space-y-5">
+    <h1 class="text-4xl font-semibold text-white ">Add Product</h1>
     <form method="post" asp-controller="Product" asp-action="AddProduct" class="flex flex-col items-end space-y-5 text-gray-300 justify-start border rounded p-10">
         <div class="">
             <label asp-for="Brand" class="me-2 text-xl"></label>

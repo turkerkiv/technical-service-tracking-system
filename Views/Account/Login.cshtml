@@ -1,19 +1,27 @@
 @model LoginViewModel
 
-<div class="bg-slate-600 w-full h-full flex justify-center items-center">
-    <form method="post" class="flex text-gray-300 flex-col items-end rounded p-10 border border-gray-400">
-        <div class="mb-3">
-            <label asp-for="Email" class="me-2 text-xl"></label>
-            <input asp-for="Email" class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100" />
-            <span asp-validation-for="Email" class="text-red-400 block mt-1 text-end text-xs font-medium"></span>
-        </div>
-        <div class="mb-3">
-            <label asp-for="Password" class="me-2 text-xl"></label>
-            <input asp-for="Password" class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100" />
-            <span asp-validation-for="Password" class="text-red-400 block mt-1 text-end text-xs font-medium"></span>
-        </div>
-        <div>
-            @Html.Partial("_Button", "Login")
-        </div>
-    </form>
+<div class="bg-slate-600 w-full h-full p-36 flex flex-row space-x-36">
+    <div class="flex flex-col space-y-10 justify-start items-center w-full h-full">
+        <h1 class="text-5xl font-semibold text-white ">Login</h1>
+        <form method="post" class="flex text-gray-300 flex-col items-end rounded p-10 border border-gray-400">
+            <div class="mb-3">
+                <label asp-for="Email" class="me-2 text-xl"></label>
+                <input asp-for="Email"
+                    class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100" />
+                <span asp-validation-for="Email" class="text-red-400 block mt-1 text-end text-xs font-medium"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Password" class="me-2 text-xl"></label>
+                <input asp-for="Password"
+                    class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100" />
+                <span asp-validation-for="Password" class="text-red-400 block mt-1 text-end text-xs font-medium"></span>
+            </div>
+            <div>
+                @Html.Partial("_Button", "Login")
+            </div>
+        </form>
+    </div>
+    <div class="w-full h-full p-10">
+        <img src="~/img/undraw_sign_up_n6im.svg" alt="">
+    </div>
 </div>

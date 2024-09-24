@@ -1,39 +1,53 @@
 @model RegisterViewModel
 
-<div class="bg-slate-600 w-full h-full flex justify-center items-center">
-    <form method="post" class="flex text-gray-300 flex-col items-end rounded p-10 border border-gray-400">
-        <div class="mb-3">
-            <label asp-for="Name" class="me-2 text-xl"></label>
-            <input asp-for="Name" placeholder="Full Name" class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100" />
-            <span asp-validation-for="Name" class="text-red-400 block mt-1 text-end text-xs font-medium"></span>
-        </div>
-        <div class="mb-3">
-            <label asp-for="PhoneNumber" class="me-2 text-xl"></label>
-            <input placeholder="1234567890" asp-for="PhoneNumber" class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100" />
-            <span asp-validation-for="PhoneNumber" class="text-red-400 block mt-1 text-end text-xs font-medium"></span>
-        </div>
-        <div class="mb-3">
-            <label asp-for="Address" class="me-2 text-xl"></label>
-            <input asp-for="Address" placeholder="123 Main St, City, State" class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100" />
-            <span asp-validation-for="Address" class="text-red-400 block mt-1 text-end text-xs font-medium"></span>
-        </div>
-        <div class="mb-3">
-            <label asp-for="Email" class="me-2 text-xl"></label>
-            <input placeholder="example@domain.com" asp-for="Email" class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100" />
-            <span asp-validation-for="Email" class="text-red-400 block mt-1 text-end text-xs font-medium"></span>
-        </div>
-        <div class="mb-3">
-            <label asp-for="Password" class="me-2 text-xl"></label>
-            <input asp-for="Password" class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100" />
-            <span asp-validation-for="Password" class="text-red-400 block mt-1 text-end text-xs font-medium"></span>
-        </div>
-        <div class="mb-3">
-            <label asp-for="ConfirmPassword" class="me-2 text-xl"></label>
-            <input asp-for="ConfirmPassword" class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100" />
-            <span asp-validation-for="ConfirmPassword" class="text-red-400 block mt-1 text-end text-xs font-medium"></span>
-        </div>
-        <div>
-            @Html.Partial("_Button", "Register")
-        </div>
-    </form>
+<div class="bg-slate-600 w-full h-full p-36 pt-10 flex flex-row space-x-36">
+    <div class="flex flex-col space-y-5 justify-start items-center w-full h-full">
+        <h1 class="text-5xl font-semibold text-white ">Register</h1>
+        <form method="post" class="flex text-gray-300 flex-col items-end rounded p-10 border border-gray-400">
+            <div class="mb-3">
+                <label asp-for="Name" class="me-2 text-xl"></label>
+                <input asp-for="Name" placeholder="Full Name"
+                    class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100" />
+                <span asp-validation-for="Name" class="text-red-400 block mt-1 text-end text-xs font-medium"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="PhoneNumber" class="me-2 text-xl"></label>
+                <input placeholder="1234567890" asp-for="PhoneNumber"
+                    class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100" />
+                <span asp-validation-for="PhoneNumber"
+                    class="text-red-400 block mt-1 text-end text-xs font-medium"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Address" class="me-2 text-xl"></label>
+                <input asp-for="Address" placeholder="123 Main St, City, State"
+                    class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100" />
+                <span asp-validation-for="Address" class="text-red-400 block mt-1 text-end text-xs font-medium"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Email" class="me-2 text-xl"></label>
+                <input placeholder="example@domain.com" asp-for="Email"
+                    class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100" />
+                <span asp-validation-for="Email" class="text-red-400 block mt-1 text-end text-xs font-medium"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Password" class="me-2 text-xl"></label>
+                <input asp-for="Password"
+                    class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100" />
+                <span asp-validation-for="Password" class="text-red-400 block mt-1 text-end text-xs font-medium"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="ConfirmPassword" class="me-2 text-xl"></label>
+                <input asp-for="ConfirmPassword"
+                    class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100" />
+                <span asp-validation-for="ConfirmPassword"
+                    class="text-red-400 block mt-1 text-end text-xs font-medium"></span>
+            </div>
+            <div>
+                @Html.Partial("_Button", "Register")
+            </div>
+        </form>
+    </div>
+    <div class="w-full h-full p-10 pt-36">
+        <img src="~/img/undraw_sign_up_n6im.svg" alt="">
+    </div>
 </div>
