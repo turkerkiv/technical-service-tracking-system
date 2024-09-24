@@ -12,10 +12,18 @@ using technical_service_tracking_system.Repository.Abstract;
 
 namespace technical_service_tracking_system.Controllers
 {
-    public class ServiceRequestController(IServiceRequestRepository serviceRequestRepository, ICustomerProductRepository customerProductRepository) : Controller
+    public class ServiceRequestController(
+        IServiceRequestRepository serviceRequestRepository,
+        ICustomerProductRepository customerProductRepository,
+        IStatusRepository statusRepository,
+        IFaultTypeRepository faultTypeRepository
+        ) : Controller
     {
         private readonly IServiceRequestRepository _serviceRequestRepository = serviceRequestRepository;
         private readonly ICustomerProductRepository _customerProductRepository = customerProductRepository;
+        private readonly IStatusRepository _statusRepo = statusRepository;
+        private readonly IFaultTypeRepository _faultRepo = faultTypeRepository;
+
 
         [HttpGet]
         public async Task<IActionResult> CreateRequest(int? customerProductId)
@@ -95,13 +103,39 @@ namespace technical_service_tracking_system.Controllers
         [HttpGet]
         public async Task<IActionResult> EditRequest(int serviceRequestId)
         {
-            var request = await _serviceRequestRepository.GetServiceRequestByIdAsync(serviceRequestId);
-            if(request == null) return NotFound();
-            return View(new EditRequestViewModel {
+            var request = await _serviceRequestRepository
+            .ServiceRequests
+            .Include(sr => sr.Customer)
+            .Include(sr => sr.CustomerProduct)
+            .ThenInclude(cp => cp.Product)
+            .FirstOrDefaultAsync(sr => sr.Id == serviceRequestId);
+            if (request == null) return NotFound();
+            return View(new EditRequestViewModel
+            {
                 ServiceRequestId = serviceRequestId,
                 FaultTypeId = request.FaultTypeId,
                 StatusId = request.StatusId,
+                CustomerName = request.Customer.Name,
+                FaultDetails = request.FaultDetails,
+                ProductName = request.CustomerProduct.Product.Brand + " " + request.CustomerProduct.Product.Model,
+                Statuses = await _statusRepo.Statuss.ToListAsync(),
+                FaultTypes = await _faultRepo.FaultTypes.ToListAsync(),
             });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditRequest(EditRequestViewModel editRequestViewModel)
+        {
+            if (!ModelState.IsValid)
+                return View(editRequestViewModel);
+
+            var request = await _serviceRequestRepository.GetServiceRequestByIdAsync(editRequestViewModel.ServiceRequestId);
+            if (request == null) return NotFound();
+
+            request.StatusId = editRequestViewModel.StatusId;
+            request.FaultTypeId = editRequestViewModel.FaultTypeId;
+            await _serviceRequestRepository.UpdateServiceRequestAsync(request);
+            return RedirectToAction("ServiceRequests");
         }
     }
 }

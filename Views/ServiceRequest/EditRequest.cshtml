@@ -1,2 +1,52 @@
 @model EditRequestViewModel
 
+<div class="w-full bg-slate-700 h-full flex flex-col items-start px-36 pt-12 space-y-10 pb-52">
+    <h1 class="text-4xl border-b font-semibold text-white ">Edit Request</h1>
+    <div class="w-full bg-slate-700 h-full flex flex-row justify-start space-x-16 items-start text-gray-300">
+        <form asp-controller="ServiceRequest" asp-action="EditRequest" method="post"
+            class="flex flex-row space-x-10 h-full">
+            <input type="hidden" asp-for="ServiceRequestId">
+            <div class="flex flex-col items-end">
+                <div class="mb-3 flex flex-col w-full space-y-2">
+                    <label asp-for="ProductName" class="me-2 text-xl"></label>
+                    <input readonly asp-for="ProductName"
+                        class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100" />
+                </div>
+                <div class="mb-3 flex flex-col w-full space-y-2">
+                    <label asp-for="CustomerName" class="me-2 text-xl"></label>
+                    <input readonly asp-for="CustomerName"
+                        class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100" />
+                </div>
+                <div class="mb-3 flex flex-col w-full space-y-2">
+                    <label asp-for="FaultDetails" class="me-2 text-xl"></label>
+                    <textarea readonly asp-for="FaultDetails"
+                        class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100"
+                        rows="5" cols="35" style="resize: none;"></textarea>
+                </div>
+            </div>
+            <div class="flex flex-col items-end gap-y-2">
+                <div class="mb-3 flex flex-col w-full space-y-2">
+                    <label class="me-2 text-xl">Status</label>
+                    @{var statuses = new SelectList(@Model.Statuses, "Id", "Name", @Model.StatusId);}
+                    <Select name="StatusId" asp-items="@statuses"
+                        class="ring-1 ring-gray-400 bg-slate-700 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-800 focus:ring-2 focus:ring-gray-400 focus:bg-slate-800 transition duration-100">
+                    </Select>
+                </div>
+                <div class="mb-3 flex flex-col w-full space-y-2">
+                    <label class="me-2 text-xl">Fault</label>
+                    @{var faultTypes = new SelectList(@Model.FaultTypes, "Id", "Name", @Model.FaultTypeId);}
+                    <Select name="FaultTypeId" asp-items="@faultTypes"
+                        class="ring-1 bg-slate-700 ring-gray-400 rounded px-4 py-2  outline-none focus:border-none hover:bg-slate-800 focus:ring-2 focus:ring-gray-400 focus:bg-slate-800 transition duration-100">
+                    </Select>
+                </div>
+                <div>
+                    @Html.Partial("_Button", "Save")
+                </div>
+            </div>
+        </form>
+        <div class="flex flex-row justify-center items-center w-full h-full">
+            <h1>Interventions of that request</h1>
+            <img src="~/img/undraw_devices_re_dxae.svg" alt="">
+        </div>
+    </div>
+</div>

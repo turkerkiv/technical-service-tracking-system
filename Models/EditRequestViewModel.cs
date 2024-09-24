@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using technical_service_tracking_system.Entity;
 
 namespace technical_service_tracking_system.Models
 {
@@ -18,5 +19,8 @@ namespace technical_service_tracking_system.Models
         public string CustomerName { get; set; } = string.Empty;
         [Display(Name = "Fault Details")]
         public string FaultDetails { get; set; } = string.Empty;
+
+        public List<Status> Statuses { get; set; } = new();
+        public List<FaultType> FaultTypes { get; set; } = new();
     }
 }

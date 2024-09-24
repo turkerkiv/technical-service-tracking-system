@@ -8,6 +8,7 @@ namespace technical_service_tracking_system.Repository.Abstract
 {
     public interface IStatusRepository
     {
+        public IQueryable<Status> Statuss {get;}
         Task<Status?> GetStatusByIdAsync(int id);
         Task AddStatusAsync(Status status);
         Task UpdateStatusAsync(Status status);
