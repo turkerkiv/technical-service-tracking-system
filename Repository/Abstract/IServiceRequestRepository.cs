@@ -8,6 +8,7 @@ namespace technical_service_tracking_system.Repository.Abstract
 {
     public interface IServiceRequestRepository
     {
+        public IQueryable<ServiceRequest> ServiceRequests { get; }
         Task<ServiceRequest?> GetServiceRequestByIdAsync(int id);
         Task AddServiceRequestAsync(ServiceRequest serviceRequest);
         Task UpdateServiceRequestAsync(ServiceRequest serviceRequest);
