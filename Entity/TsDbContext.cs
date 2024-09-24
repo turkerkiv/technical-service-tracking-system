@@ -83,9 +83,9 @@ namespace technical_service_tracking_system.Entity
 
       // Seeding Statuses
       modelBuilder.Entity<Status>().HasData(
-          new Status { Id = 1, Name = "Open" },
+          new Status { Id = 1, Name = "Ready" },
           new Status { Id = 2, Name = "In Progress" },
-          new Status { Id = 3, Name = "Closed" }
+          new Status { Id = 3, Name = "Done" }
       );
 
       // Seeding Products

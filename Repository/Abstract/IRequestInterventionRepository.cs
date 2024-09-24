@@ -8,6 +8,7 @@ namespace technical_service_tracking_system.Repository.Abstract
 {
     public interface IRequestInterventionRepository
     {
+        public IQueryable<RequestIntervention> RequestInterventions { get; }
         Task<RequestIntervention?> GetRequestInterventionByIdAsync(int id);
         Task AddRequestInterventionAsync(RequestIntervention requestIntervention);
         Task UpdateRequestInterventionAsync(RequestIntervention requestIntervention);

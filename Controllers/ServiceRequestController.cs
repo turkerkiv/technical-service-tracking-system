@@ -16,13 +16,15 @@ namespace technical_service_tracking_system.Controllers
         IServiceRequestRepository serviceRequestRepository,
         ICustomerProductRepository customerProductRepository,
         IStatusRepository statusRepository,
-        IFaultTypeRepository faultTypeRepository
+        IFaultTypeRepository faultTypeRepository,
+        IRequestInterventionRepository requestInterventionRepository
         ) : Controller
     {
         private readonly IServiceRequestRepository _serviceRequestRepository = serviceRequestRepository;
         private readonly ICustomerProductRepository _customerProductRepository = customerProductRepository;
         private readonly IStatusRepository _statusRepo = statusRepository;
         private readonly IFaultTypeRepository _faultRepo = faultTypeRepository;
+        private readonly IRequestInterventionRepository _interventionRepo = requestInterventionRepository;
 
 
         [HttpGet]
@@ -110,16 +112,35 @@ namespace technical_service_tracking_system.Controllers
             .ThenInclude(cp => cp.Product)
             .FirstOrDefaultAsync(sr => sr.Id == serviceRequestId);
             if (request == null) return NotFound();
-            return View(new EditRequestViewModel
+
+            var interventions = await _interventionRepo
+            .RequestInterventions
+            .Where(ri => ri.ServiceRequestId == serviceRequestId)
+            .Include(ri => ri.Technician)
+            .Include(ri => ri.SpareItemUseActivities)
+            .ThenInclude(siua => siua.SpareItem) 
+            .ToListAsync();
+
+            return View(new EditReqInterventionViewModel
             {
-                ServiceRequestId = serviceRequestId,
-                FaultTypeId = request.FaultTypeId,
-                StatusId = request.StatusId,
-                CustomerName = request.Customer.Name,
-                FaultDetails = request.FaultDetails,
-                ProductName = request.CustomerProduct.Product.Brand + " " + request.CustomerProduct.Product.Model,
-                Statuses = await _statusRepo.Statuss.ToListAsync(),
-                FaultTypes = await _faultRepo.FaultTypes.ToListAsync(),
+                EditRequestViewModel = new EditRequestViewModel
+                {
+                    ServiceRequestId = serviceRequestId,
+                    FaultTypeId = request.FaultTypeId,
+                    StatusId = request.StatusId,
+                    CustomerName = request.Customer.Name,
+                    FaultDetails = request.FaultDetails,
+                    ProductName = request.CustomerProduct.Product.Brand + " " + request.CustomerProduct.Product.Model,
+                    Statuses = await _statusRepo.Statuss.ToListAsync(),
+                    FaultTypes = await _faultRepo.FaultTypes.ToListAsync(),
+                },
+                InterventionsViewModels = interventions.Select(i => new ListInterventionViewModel{
+                    EndDate = i.EndDate,
+                    StartDate = i.StartDate,
+                    InterventionDetails = i.InterventionDetails,
+                    TechnicianName = i.Technician.Name,
+                    UsedSpareItems = String.Join(", ",i.SpareItemUseActivities.Select(siua => siua.SpareItem.Name)),
+                }).ToList(),                
             });
         }
 

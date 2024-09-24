@@ -1,25 +1,25 @@
-@model EditRequestViewModel
+@model EditReqInterventionViewModel
 
-<div class="w-full bg-slate-700 h-full flex flex-col items-start px-36 pt-12 space-y-10 pb-52">
+<div class="w-full bg-slate-700 h-full flex flex-col items-start px-20 pt-12 space-y-10">
     <h1 class="text-4xl border-b font-semibold text-white ">Edit Request</h1>
     <div class="w-full bg-slate-700 h-full flex flex-row justify-start space-x-16 items-start text-gray-300">
         <form asp-controller="ServiceRequest" asp-action="EditRequest" method="post"
             class="flex flex-row space-x-10 h-full">
-            <input type="hidden" asp-for="ServiceRequestId">
+            <input type="hidden" asp-for="@Model.EditRequestViewModel.ServiceRequestId">
             <div class="flex flex-col items-end">
                 <div class="mb-3 flex flex-col w-full space-y-2">
-                    <label asp-for="ProductName" class="me-2 text-xl"></label>
-                    <input readonly asp-for="ProductName"
+                    <label asp-for="@Model.EditRequestViewModel.ProductName" class="me-2 text-xl"></label>
+                    <input readonly asp-for="@Model.EditRequestViewModel.ProductName"
                         class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100" />
                 </div>
                 <div class="mb-3 flex flex-col w-full space-y-2">
-                    <label asp-for="CustomerName" class="me-2 text-xl"></label>
-                    <input readonly asp-for="CustomerName"
+                    <label asp-for="@Model.EditRequestViewModel.CustomerName" class="me-2 text-xl"></label>
+                    <input readonly asp-for="@Model.EditRequestViewModel.CustomerName"
                         class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100" />
                 </div>
                 <div class="mb-3 flex flex-col w-full space-y-2">
-                    <label asp-for="FaultDetails" class="me-2 text-xl"></label>
-                    <textarea readonly asp-for="FaultDetails"
+                    <label asp-for="@Model.EditRequestViewModel.FaultDetails" class="me-2 text-xl"></label>
+                    <textarea readonly asp-for="@Model.EditRequestViewModel.FaultDetails"
                         class="ring-1 ring-gray-400 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-700 focus:ring-2 focus:ring-gray-400 focus:bg-slate-700 transition duration-100"
                         rows="5" cols="35" style="resize: none;"></textarea>
                 </div>
@@ -27,15 +27,17 @@
             <div class="flex flex-col items-end gap-y-2">
                 <div class="mb-3 flex flex-col w-full space-y-2">
                     <label class="me-2 text-xl">Status</label>
-                    @{var statuses = new SelectList(@Model.Statuses, "Id", "Name", @Model.StatusId);}
-                    <Select name="StatusId" asp-items="@statuses"
+                    @{var statuses = new SelectList(@Model.EditRequestViewModel.Statuses, "Id", "Name",
+                    @Model.EditRequestViewModel.StatusId);}
+                    <Select name="EditRequestViewModel.StatusId" asp-items="@statuses"
                         class="ring-1 ring-gray-400 bg-slate-700 rounded px-4 py-2 bg-transparent outline-none focus:border-none hover:bg-slate-800 focus:ring-2 focus:ring-gray-400 focus:bg-slate-800 transition duration-100">
                     </Select>
                 </div>
                 <div class="mb-3 flex flex-col w-full space-y-2">
                     <label class="me-2 text-xl">Fault</label>
-                    @{var faultTypes = new SelectList(@Model.FaultTypes, "Id", "Name", @Model.FaultTypeId);}
-                    <Select name="FaultTypeId" asp-items="@faultTypes"
+                    @{var faultTypes = new SelectList(@Model.EditRequestViewModel.FaultTypes, "Id", "Name",
+                    @Model.EditRequestViewModel.FaultTypeId);}
+                    <Select name="EditRequestViewModel.FaultTypeId" asp-items="@faultTypes"
                         class="ring-1 bg-slate-700 ring-gray-400 rounded px-4 py-2  outline-none focus:border-none hover:bg-slate-800 focus:ring-2 focus:ring-gray-400 focus:bg-slate-800 transition duration-100">
                     </Select>
                 </div>
@@ -44,9 +46,42 @@
                 </div>
             </div>
         </form>
-        <div class="flex flex-row justify-center items-center w-full h-full">
-            <h1>Interventions of that request</h1>
-            <img src="~/img/undraw_devices_re_dxae.svg" alt="">
+        <div class="flex flex-col justify-start items-center w-full h-full gap-y-7">
+            <div class="w-full flex flex-row justify-between items-end">
+                <h1 class="font-semibold text-5xl text-white">Interventions</h1>
+                <a asp-action="AddProduct"
+                    class="me-4 inline-block px-4 py-2 text-white bg-green-700 rounded hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500">Add
+                    Intervention</a>
+            </div>
+            <table class="min-w-full border-collapse bg-slate-600 shadow-md rounded-lg overflow-hidden text-gray-300">
+                <thead>
+                    <tr class="bg-slate-800 text-left text-sm font-semibold text-gray-300 border-b  border-slate-700">
+                        <th class="py-2 px-4 ">@Html.DisplayNameFor(c =>
+                            c.InterventionsViewModels[0].TechnicianName)</th>
+                        <th class="py-2 px-4 ">@Html.DisplayNameFor(c =>
+                            c.InterventionsViewModels[0].UsedSpareItems)</th>
+                        <th class="py-2 px-4">@Html.DisplayNameFor(c =>
+                            c.InterventionsViewModels[0].StartDate)</th>
+                        <th class="py-2 px-4">@Html.DisplayNameFor(c =>
+                            c.InterventionsViewModels[0].EndDate)</th>
+                        <th class="py-2 px-4 ">@Html.DisplayNameFor(c =>
+                            c.InterventionsViewModels[0].InterventionDetails)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var intervention in Model.InterventionsViewModels)
+                    {
+                    <tr class="hover:bg-gray-700 border-b border-slate-700">
+                        <td class="py-3 px-4 font-semibold text-gray-200">@intervention.TechnicianName</td>
+                        <td class="py-3 px-4">@intervention.UsedSpareItems</td>
+                        <td class="py-3 px-4">@intervention.StartDate.ToString("MM/dd/yyyy")
+                        </td>
+                        <td class="py-3 px-4 ">@intervention.EndDate.ToString("MM/dd/yyyy")</td>
+                        <td class="py-3 px-4">@intervention.InterventionDetails</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
