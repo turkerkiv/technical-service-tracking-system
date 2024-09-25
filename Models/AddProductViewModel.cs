@@ -17,10 +17,9 @@ namespace technical_service_tracking_system.Models
         public string SerialNumber { get; set; } = string.Empty;
         [Required]
         [Display(Name = "Warranty Start Date")]
-        public DateOnly WarrantyStartDate { get; set; }
+        public DateOnly? WarrantyStartDate { get; set; }
         [Required]
         [Display(Name = "Warranty End Date")]
-        public DateOnly WarrantyEndDate { get; set; }
+        public DateOnly? WarrantyEndDate { get; set; }
     }
 }
-//FIXME dateonly fieldlar erroru garip veriyor nullable falan yapmak lazım

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Metadata;
@@ -47,9 +48,16 @@ namespace technical_service_tracking_system.Controllers
                 SpareItemUseActivities = addInterventionViewModel.SelectedSpareItemIds.Select(ssii => new SpareItemUseActivity{
                     SpareItemId = ssii
                 }).ToList(),
-                TechnicianId = 3, //replace with logged in user
+                TechnicianId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)),
                 StartDate = addInterventionViewModel.StartDate.Value,
             });
+
+            //to decrease stock but it makes app crashed
+            // addInterventionViewModel.SelectedSpareItemIds.ForEach(async ssii => {
+            //     var spareItem = await _spareItemRepo.SpareItems.FirstOrDefaultAsync(si => si.Id == ssii);
+            //     spareItem.Stock--;
+            //     await _spareItemRepo.UpdateSpareItemAsync(spareItem);
+            // });
 
             return RedirectToAction("ServiceRequests", "ServiceRequest");
         }

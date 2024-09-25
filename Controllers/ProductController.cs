@@ -80,10 +80,10 @@ namespace technical_service_tracking_system.Controllers
 
             var customerProduct = new CustomerProduct
             {
-                CustomerId = 2,
+                CustomerId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)),
                 Product = product,
-                WarrantyEndDate = addProductViewModel.WarrantyEndDate,
-                WarrantyStartDate = addProductViewModel.WarrantyStartDate,
+                WarrantyEndDate = addProductViewModel.WarrantyEndDate.Value,
+                WarrantyStartDate = addProductViewModel.WarrantyStartDate.Value,
             };
 
             await _customerProductRepository.AddCustomerProductAsync(customerProduct);
@@ -157,3 +157,4 @@ namespace technical_service_tracking_system.Controllers
 }
 
 //TODO when i use spare item in intervention decrease stock
+//FIXME add intervention da sayfa yenilenirse select list gidiyor

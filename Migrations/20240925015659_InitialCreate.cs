@@ -274,8 +274,9 @@ namespace technical_service_tracking_system.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Open" },
-                    { 2, "Closed" }
+                    { 1, "Ready" },
+                    { 2, "In Progress" },
+                    { 3, "Done" }
                 });
 
             migrationBuilder.InsertData(
@@ -283,9 +284,9 @@ namespace technical_service_tracking_system.Migrations
                 columns: new[] { "Id", "Address", "Email", "Name", "Password", "PhoneNumber", "RoleId" },
                 values: new object[,]
                 {
-                    { 1, "123 Main St", "john@example.com", "John Doe", "hashedpassword1", "1234567890", 1 },
-                    { 2, "456 Elm St", "jane@example.com", "Jane Smith", "hashedpassword2", "0987654321", 3 },
-                    { 3, "789 Pine St", "mike@example.com", "Technician Mike", "hashedpassword3", "1112223333", 2 }
+                    { 1, "123 Main St", "john@example.com", "John Doe", "$2a$11$iaEhkYYAe31wcEQ7az8g4ezvEzZf9FeydTUei9bNQny9onWZOE6MG", "1234567890", 1 },
+                    { 2, "456 Elm St", "jane@example.com", "Jane Smith", "$2a$11$ZK6AdNK/ENSLo6y6eLSjEumoDux9BiA6jQOACFJ0fSiRcn5X0puEG", "0987654321", 3 },
+                    { 3, "789 Pine St", "mike@example.com", "Technician Mike", "$2a$11$RN1H0xchqDF.qKZLg.lV5.gerAiYqAy.eImY.ZcIT7hJNpuZVBz.C", "1112223333", 2 }
                 });
 
             migrationBuilder.InsertData(

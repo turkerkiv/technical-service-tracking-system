@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,8 @@ namespace technical_service_tracking_system.Controllers
         ICustomerProductRepository customerProductRepository,
         IStatusRepository statusRepository,
         IFaultTypeRepository faultTypeRepository,
-        IRequestInterventionRepository requestInterventionRepository
+        IRequestInterventionRepository requestInterventionRepository,
+        ISpareItemRepository spareItemRepository
         ) : Controller
     {
         private readonly IServiceRequestRepository _serviceRequestRepository = serviceRequestRepository;
@@ -26,6 +28,8 @@ namespace technical_service_tracking_system.Controllers
         private readonly IStatusRepository _statusRepo = statusRepository;
         private readonly IFaultTypeRepository _faultRepo = faultTypeRepository;
         private readonly IRequestInterventionRepository _interventionRepo = requestInterventionRepository;
+        private readonly ISpareItemRepository _spareItemRepo = spareItemRepository;
+
 
 
         [HttpGet]
@@ -57,8 +61,13 @@ namespace technical_service_tracking_system.Controllers
         [Authorize(Roles = "Customer")]
         public async Task<IActionResult> CreateRequest(ServiceRequestViewModel serviceRequestViewModel)
         {
-            //TODO add if any customer product already has request add model error and add general model error div for other errors in cshtml
             if (!ModelState.IsValid)
+            {
+                return View(serviceRequestViewModel);
+            }
+
+            //Could be added modelstate error
+            if(_serviceRequestRepository.ServiceRequests.Any(sr => sr.CustomerProductId == serviceRequestViewModel.CustomerProductId))
             {
                 return View(serviceRequestViewModel);
             }
@@ -69,7 +78,7 @@ namespace technical_service_tracking_system.Controllers
                 FaultDetails = serviceRequestViewModel.FaultDetails,
                 RequestDate = DateOnly.FromDateTime(DateTime.Now),
                 StatusId = 1,
-                CustomerId = 2, //This will be replaced with the actual user id
+                CustomerId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)),
             };
 
             await _serviceRequestRepository.AddServiceRequestAsync(serviceRequest);
@@ -174,11 +183,15 @@ namespace technical_service_tracking_system.Controllers
             .Where(sr => sr.StatusId != 3)
             .Include(sr => sr.RequestInterventions)
             .ThenInclude(ri => ri.Technician)
+            .Include(sr => sr.RequestInterventions)
+            .ThenInclude(ri => ri.SpareItemUseActivities)
+            .ThenInclude(siua => siua.SpareItem)
             .Include(sr => sr.Status)
             .Include(sr => sr.FaultType)
             .FirstOrDefaultAsync(sr => sr.CustomerProductId == customerProductId);
 
             if(request == null) return NotFound();
+
 
             return View(new RequestDetailsViewModel{
                 RequestStatus = request.Status.Name,
@@ -195,4 +208,3 @@ namespace technical_service_tracking_system.Controllers
         }
     }
 }
-//TODO used items does not show

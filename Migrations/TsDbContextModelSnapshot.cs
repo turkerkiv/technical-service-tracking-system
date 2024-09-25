@@ -396,12 +396,17 @@ namespace technical_service_tracking_system.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Open"
+                            Name = "Ready"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Closed"
+                            Name = "In Progress"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Done"
                         });
                 });
 
@@ -449,7 +454,7 @@ namespace technical_service_tracking_system.Migrations
                             Address = "123 Main St",
                             Email = "john@example.com",
                             Name = "John Doe",
-                            Password = "hashedpassword1",
+                            Password = "$2a$11$iaEhkYYAe31wcEQ7az8g4ezvEzZf9FeydTUei9bNQny9onWZOE6MG",
                             PhoneNumber = "1234567890",
                             RoleId = 1
                         },
@@ -459,7 +464,7 @@ namespace technical_service_tracking_system.Migrations
                             Address = "456 Elm St",
                             Email = "jane@example.com",
                             Name = "Jane Smith",
-                            Password = "hashedpassword2",
+                            Password = "$2a$11$ZK6AdNK/ENSLo6y6eLSjEumoDux9BiA6jQOACFJ0fSiRcn5X0puEG",
                             PhoneNumber = "0987654321",
                             RoleId = 3
                         },
@@ -469,7 +474,7 @@ namespace technical_service_tracking_system.Migrations
                             Address = "789 Pine St",
                             Email = "mike@example.com",
                             Name = "Technician Mike",
-                            Password = "hashedpassword3",
+                            Password = "$2a$11$RN1H0xchqDF.qKZLg.lV5.gerAiYqAy.eImY.ZcIT7hJNpuZVBz.C",
                             PhoneNumber = "1112223333",
                             RoleId = 2
                         });

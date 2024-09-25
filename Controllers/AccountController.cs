@@ -98,6 +98,3 @@ namespace technical_service_tracking_system.Controllers
         }
     }
 }
-
-//TODO genel error div i eklemek lazım
-//TODO bcrypt kullanmak lazım
