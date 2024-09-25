@@ -169,12 +169,15 @@ namespace technical_service_tracking_system.Controllers
             .Include(sr => sr.RequestInterventions)
             .ThenInclude(ri => ri.Technician)
             .Include(sr => sr.Status)
+            .Include(sr => sr.FaultType)
             .FirstOrDefaultAsync(sr => sr.CustomerProductId == customerProductId);
 
             if(request == null) return NotFound();
 
             return View(new RequestDetailsViewModel{
                 RequestStatus = request.Status.Name,
+                FaultTypeName = request.FaultType?.Name ?? "Not assigned yet." ,
+                TicketNumber = request.TicketNumber.ToString(),
                 InterventionsViewModels = request.RequestInterventions.Select(ri => new ListInterventionViewModel{
                     EndDate = ri.EndDate,
                     StartDate = ri.StartDate,

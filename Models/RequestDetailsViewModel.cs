@@ -8,6 +8,8 @@ namespace technical_service_tracking_system.Models
     public class RequestDetailsViewModel
     {
         public string RequestStatus { get; set; } = string.Empty;
+        public string FaultTypeName { get; set; } = string.Empty;
+        public string TicketNumber { get; set; } = string.Empty;
         public List<ListInterventionViewModel> InterventionsViewModels { get; set; } = new();
     }
 }
