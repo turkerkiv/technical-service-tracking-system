@@ -118,7 +118,7 @@ namespace technical_service_tracking_system.Controllers
             .Where(ri => ri.ServiceRequestId == serviceRequestId)
             .Include(ri => ri.Technician)
             .Include(ri => ri.SpareItemUseActivities)
-            .ThenInclude(siua => siua.SpareItem) 
+            .ThenInclude(siua => siua.SpareItem)
             .ToListAsync();
 
             return View(new EditReqInterventionViewModel
@@ -134,13 +134,14 @@ namespace technical_service_tracking_system.Controllers
                     Statuses = await _statusRepo.Statuss.ToListAsync(),
                     FaultTypes = await _faultRepo.FaultTypes.ToListAsync(),
                 },
-                InterventionsViewModels = interventions.Select(i => new ListInterventionViewModel{
+                InterventionsViewModels = interventions.Select(i => new ListInterventionViewModel
+                {
                     EndDate = i.EndDate,
                     StartDate = i.StartDate,
                     InterventionDetails = i.InterventionDetails,
                     TechnicianName = i.Technician.Name,
-                    UsedSpareItems = String.Join(", ",i.SpareItemUseActivities.Select(siua => siua.SpareItem.Name)),
-                }).ToList(),                
+                    UsedSpareItems = String.Join(", ", i.SpareItemUseActivities.Select(siua => siua.SpareItem.Name)),
+                }).ToList(),
             });
         }
 
@@ -158,6 +159,31 @@ namespace technical_service_tracking_system.Controllers
             await _serviceRequestRepository.UpdateServiceRequestAsync(request);
             return RedirectToAction("ServiceRequests");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ServiceRequestDetails(int customerProductId)
+        {
+            var request = await _serviceRequestRepository
+            .ServiceRequests
+            .Where(sr => sr.StatusId != 3)
+            .Include(sr => sr.RequestInterventions)
+            .ThenInclude(ri => ri.Technician)
+            .Include(sr => sr.Status)
+            .FirstOrDefaultAsync(sr => sr.CustomerProductId == customerProductId);
+
+            if(request == null) return NotFound();
+
+            return View(new RequestDetailsViewModel{
+                RequestStatus = request.Status.Name,
+                InterventionsViewModels = request.RequestInterventions.Select(ri => new ListInterventionViewModel{
+                    EndDate = ri.EndDate,
+                    StartDate = ri.StartDate,
+                    InterventionDetails = ri.InterventionDetails,
+                    TechnicianName = ri.Technician.Name,
+                    UsedSpareItems = String.Join(", ", ri.SpareItemUseActivities.Select(siua => siua.SpareItem.Name)),
+                }).ToList(),
+            });
+        }
     }
 }
-
+//TODO used items does not show

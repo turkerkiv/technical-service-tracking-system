@@ -22,6 +22,8 @@ namespace technical_service_tracking_system.Models
         [Required]
         [Display(Name = "Fault Details")]
         public string FaultDetails { get; set; } = string.Empty;
-        
+
+        [Display(Name = "In Service")]
+        public bool InService { get; set; }        
     }
 }

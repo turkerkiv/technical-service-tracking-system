@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +30,13 @@ namespace technical_service_tracking_system.Controllers
         {
             //Customers can view their products here
             int userId = 2; //This will be replaced with the actual user id
-            var customerProducts = await _customerProductRepository.CustomerProducts.Where(cp => cp.CustomerId == userId).Include(cp => cp.Product).ToListAsync();
+            var customerProducts = await _customerProductRepository
+            .CustomerProducts
+            .Where(cp => cp.CustomerId == userId)
+            .Include(cp => cp.Product)
+            .Include(cp => cp.ServiceRequests)
+            .ToListAsync();
+
             var productsOfUser = customerProducts.Select(cp => new ServiceRequestViewModel
             {
                 CustomerProductId = cp.Id,
@@ -38,6 +45,7 @@ namespace technical_service_tracking_system.Controllers
                 WarrantyStartDate = cp.WarrantyStartDate,
                 WarrantyEndDate = cp.WarrantyEndDate,
                 HasWarranty = cp.HasWarranty,
+                InService = cp.ServiceRequests.Where(sr => sr.StatusId != 3).Any(),
             });
 
             return View(productsOfUser.ToList());
@@ -81,7 +89,8 @@ namespace technical_service_tracking_system.Controllers
         public async Task<IActionResult> SpareItems()
         {
             var items = await _spareItemRepo.SpareItems.ToListAsync();
-            return View(items.Select(i => new ListSpareItemViewModel {
+            return View(items.Select(i => new ListSpareItemViewModel
+            {
                 SpareItemId = i.Id,
                 SpareItemName = i.Name,
                 Stock = i.Stock,
@@ -97,9 +106,10 @@ namespace technical_service_tracking_system.Controllers
         [HttpPost]
         public async Task<IActionResult> AddSpareItem(ListSpareItemViewModel listSpareItemViewModel)
         {
-            if(!ModelState.IsValid) return View(listSpareItemViewModel);
+            if (!ModelState.IsValid) return View(listSpareItemViewModel);
 
-            await _spareItemRepo.AddSpareItemAsync(new SpareItem{
+            await _spareItemRepo.AddSpareItemAsync(new SpareItem
+            {
                 Name = listSpareItemViewModel.SpareItemName,
                 Stock = listSpareItemViewModel.Stock,
             });
@@ -111,8 +121,9 @@ namespace technical_service_tracking_system.Controllers
         public async Task<IActionResult> EditSpareItem(int spareItemId)
         {
             var spareItem = await _spareItemRepo.GetSpareItemByIdAsync(spareItemId);
-            if(spareItem == null) return NotFound();
-            return View(new ListSpareItemViewModel{
+            if (spareItem == null) return NotFound();
+            return View(new ListSpareItemViewModel
+            {
                 SpareItemId = spareItem.Id,
                 SpareItemName = spareItem.Name,
             });
@@ -121,10 +132,10 @@ namespace technical_service_tracking_system.Controllers
         [HttpPost]
         public async Task<IActionResult> EditSpareItem(ListSpareItemViewModel listSpareItemViewModel)
         {
-            if(!ModelState.IsValid) return View(listSpareItemViewModel);
+            if (!ModelState.IsValid) return View(listSpareItemViewModel);
 
             var spareItem = await _spareItemRepo.GetSpareItemByIdAsync(listSpareItemViewModel.SpareItemId);
-            if(spareItem == null) return NotFound();
+            if (spareItem == null) return NotFound();
 
             spareItem.Stock = listSpareItemViewModel.Stock;
             spareItem.Name = listSpareItemViewModel.SpareItemName;
