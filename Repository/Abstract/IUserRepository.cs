@@ -8,6 +8,7 @@ namespace technical_service_tracking_system.Repository.Abstract
 {
     public interface IUserRepository
     {
+        public IQueryable<User> Users { get; }
         Task<User?> GetUserByIdAsync(int id);
         Task AddUserAsync(User user);
         Task UpdateUserAsync(User user);

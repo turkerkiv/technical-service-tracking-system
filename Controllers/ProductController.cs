@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -26,10 +28,11 @@ namespace technical_service_tracking_system.Controllers
         private readonly ISpareItemRepository _spareItemRepo = spareItemRepository;
 
         [HttpGet]
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> MyProducts()
         {
             //Customers can view their products here
-            int userId = 2; //This will be replaced with the actual user id
+            int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             var customerProducts = await _customerProductRepository
             .CustomerProducts
             .Where(cp => cp.CustomerId == userId)
@@ -52,12 +55,14 @@ namespace technical_service_tracking_system.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Customer")]
         public IActionResult AddProduct()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> AddProduct(AddProductViewModel addProductViewModel)
         {
             if (!ModelState.IsValid)
@@ -86,6 +91,7 @@ namespace technical_service_tracking_system.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Technician, Admin")]
         public async Task<IActionResult> SpareItems()
         {
             var items = await _spareItemRepo.SpareItems.ToListAsync();
@@ -98,12 +104,14 @@ namespace technical_service_tracking_system.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Technician, Admin")]
         public IActionResult AddSpareItem()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Technician, Admin")]
         public async Task<IActionResult> AddSpareItem(ListSpareItemViewModel listSpareItemViewModel)
         {
             if (!ModelState.IsValid) return View(listSpareItemViewModel);
@@ -118,6 +126,7 @@ namespace technical_service_tracking_system.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Technician, Admin")]
         public async Task<IActionResult> EditSpareItem(int spareItemId)
         {
             var spareItem = await _spareItemRepo.GetSpareItemByIdAsync(spareItemId);
@@ -130,6 +139,7 @@ namespace technical_service_tracking_system.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Technician, Admin")]
         public async Task<IActionResult> EditSpareItem(ListSpareItemViewModel listSpareItemViewModel)
         {
             if (!ModelState.IsValid) return View(listSpareItemViewModel);

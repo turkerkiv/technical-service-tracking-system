@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Metadata;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,7 @@ namespace technical_service_tracking_system.Controllers
         private readonly ISpareItemRepository _spareItemRepo = spareItemRepository;
 
         [HttpGet]
+        [Authorize(Roles = "Technician, Admin")]
         public async Task<IActionResult> AddIntervention(int requestId)
         {
             return View(new AddInterventionViewModel{
@@ -32,6 +34,7 @@ namespace technical_service_tracking_system.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Technician, Admin")]
         public async Task<IActionResult> AddIntervention(AddInterventionViewModel addInterventionViewModel)
         {
             if(!ModelState.IsValid)

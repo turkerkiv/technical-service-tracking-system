@@ -15,8 +15,6 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        //products that belong to logged in user's id if no user is logged in, then return empty list
-        
        return View();
     }
 

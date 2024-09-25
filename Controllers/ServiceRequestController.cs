@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -53,6 +54,7 @@ namespace technical_service_tracking_system.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> CreateRequest(ServiceRequestViewModel serviceRequestViewModel)
         {
             //TODO add if any customer product already has request add model error and add general model error div for other errors in cshtml
@@ -79,6 +81,7 @@ namespace technical_service_tracking_system.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Technician, Admin")]
         public async Task<IActionResult> ServiceRequests()
         {
             var serviceRequests = await _serviceRequestRepository
@@ -103,6 +106,7 @@ namespace technical_service_tracking_system.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Technician, Admin")]
         public async Task<IActionResult> EditRequest(int serviceRequestId)
         {
             var request = await _serviceRequestRepository
@@ -146,6 +150,7 @@ namespace technical_service_tracking_system.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Technician, Admin")]
         public async Task<IActionResult> EditRequest(EditRequestViewModel editRequestViewModel)
         {
             if (!ModelState.IsValid)
@@ -161,6 +166,7 @@ namespace technical_service_tracking_system.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> ServiceRequestDetails(int customerProductId)
         {
             var request = await _serviceRequestRepository
