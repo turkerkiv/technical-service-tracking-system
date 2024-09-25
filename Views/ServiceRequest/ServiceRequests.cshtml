@@ -26,7 +26,12 @@
                 <tr class="hover:bg-gray-700 border-b border-slate-700">
                     <td class="py-3 px-4 font-semibold text-gray-200">@request.ProductName</td>
                     <td class="py-3 px-4">@request.CustomerName</td>
-                    <td class="py-3 px-4">@request.Status</td>
+                    <td class="py-3 px-4">
+                        <span
+                            class="self-center mt-2 inline-block px-2 py-1 rounded-lg text-xs font-medium @(request.Status != "Closed" ? "bg-red-200 text-red-800" : "bg-green-200 text-green-800" )">
+                            @request.Status
+                        </span>
+                    </td>
                     <td class="py-3 px-4">@request.FaultType</td>
                     <td class="py-3 px-4">@request.FaultDetails</td>
                     <!-- <td class="py-3 px-4 "> -->
