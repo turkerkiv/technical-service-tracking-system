@@ -70,9 +70,9 @@ namespace technical_service_tracking_system.Entity
 
       // Seeding Users
       modelBuilder.Entity<User>().HasData(
-          new User { Id = 1, Name = "John Doe", Address = "123 Main St", PhoneNumber = "1234567890", Email = "john@example.com", Password = "hashedpassword1", RoleId = 1 },
-          new User { Id = 2, Name = "Jane Smith", Address = "456 Elm St", PhoneNumber = "0987654321", Email = "jane@example.com", Password = "hashedpassword2", RoleId = 3 },
-          new User { Id = 3, Name = "Technician Mike", Address = "789 Pine St", PhoneNumber = "1112223333", Email = "mike@example.com", Password = "hashedpassword3", RoleId = 2 }
+          new User { Id = 1, Name = "John Doe", Address = "123 Main St", PhoneNumber = "1234567890", Email = "john@example.com", Password = BCrypt.Net.BCrypt.HashPassword("123"), RoleId = 1 },
+          new User { Id = 2, Name = "Jane Smith", Address = "456 Elm St", PhoneNumber = "0987654321", Email = "jane@example.com", Password = BCrypt.Net.BCrypt.HashPassword("123"), RoleId = 3 },
+          new User { Id = 3, Name = "Technician Mike", Address = "789 Pine St", PhoneNumber = "1112223333", Email = "mike@example.com", Password = BCrypt.Net.BCrypt.HashPassword("123"), RoleId = 2 }
       );
 
       // Seeding Fault Types

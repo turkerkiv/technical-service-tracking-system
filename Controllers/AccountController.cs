@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using technical_service_tracking_system.Models;
 using technical_service_tracking_system.Repository.Abstract;
+using BCrypt.Net;
 
 namespace technical_service_tracking_system.Controllers
 {
@@ -40,7 +41,7 @@ namespace technical_service_tracking_system.Controllers
                 ModelState.AddModelError("", "Email is incorrect.");
                 return View(model);
             }
-            if (user.Password != model.Password)
+            if (!BCrypt.Net.BCrypt.Verify(model.Password, user.Password))
             {
                 ModelState.AddModelError("", "Password is incorrect.");
                 return View(model);
@@ -74,9 +75,17 @@ namespace technical_service_tracking_system.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
+            await _userRepository.AddUserAsync(new Entity.User{
+                Address = model.Address,
+                Email = model.Email,
+                Name = model.Name,
+                Password = BCrypt.Net.BCrypt.HashPassword(model.Password),
+                PhoneNumber = model.PhoneNumber,
+                RoleId = 3, //could admin change this elsewhere
+            });
             return RedirectToAction("Login", "Account");
         }
 
